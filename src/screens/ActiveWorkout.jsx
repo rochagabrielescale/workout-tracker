@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { THEME } from '../theme.js';
 import { Icon } from '../icons.jsx';
 import { Mono } from '../components/Mono.jsx';
+import { IconBtn } from '../components/Card.jsx';
 import { ACTIVE, TODAY_WORKOUT } from '../data.js';
 
 export function ActiveWorkout({ onExit }) {
@@ -12,9 +13,7 @@ export function ActiveWorkout({ onExit }) {
   const [paused, setPaused] = useState(false);
   const ex = ACTIVE.list[exIdx];
 
-  useEffect(() => {
-    setSets(ACTIVE.list[exIdx].sets || []);
-  }, [exIdx]);
+  useEffect(() => { setSets(ACTIVE.list[exIdx].sets || []); }, [exIdx]);
 
   useEffect(() => {
     if (restSec <= 0 || paused) return;
@@ -23,9 +22,8 @@ export function ActiveWorkout({ onExit }) {
   }, [restSec, paused]);
 
   const completeSet = (i) => {
-    const wasDone = sets[i].done;
     setSets((prev) => prev.map((s, j) => (j === i ? { ...s, done: !s.done } : s)));
-    if (!wasDone) {
+    if (!sets[i].done) {
       setRestSec(restTotal);
       setPaused(false);
     }
@@ -35,90 +33,52 @@ export function ActiveWorkout({ onExit }) {
   const pct = sets.length ? (completedCount / sets.length) * 100 : 0;
 
   return (
-    <div style={{ position: 'relative', minHeight: '100%' }}>
-      {/* Top bar */}
+    <div style={{ position: 'relative', height: '100%' }}>
       <div
         style={{
-          padding: '8px 20px 14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
+          background: THEME.bgGradient,
+          padding: '8px 18px 18px',
+          borderBottomLeftRadius: 26,
+          borderBottomRightRadius: 26,
         }}
       >
-        <button
-          onClick={onExit}
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            background: THEME.cardElev,
-            border: `1px solid ${THEME.border}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: THEME.textMuted,
-            cursor: 'pointer',
-          }}
-        >
-          {Icon.close('currentColor', 16)}
-        </button>
-        <div style={{ flex: 1, textAlign: 'center' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: 6,
-            }}
-          >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <IconBtn onClick={onExit} size={40} bg="rgba(255,255,255,0.6)">
+            {Icon.arrowL('#111', 20)}
+          </IconBtn>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}>
+              <div
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: THEME.danger,
+                  animation: 'fpulse 1.4s ease-in-out infinite',
+                }}
+              />
+              <Mono size={9} color={THEME.textMuted}>LIVE · {TODAY_WORKOUT.name.toUpperCase()}</Mono>
+            </div>
             <div
               style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: '#ff4d4d',
-                animation: 'fpulse 1.4s ease-in-out infinite',
+                fontFamily: THEME.mono,
+                fontSize: 24,
+                fontWeight: 700,
+                color: THEME.text,
+                letterSpacing: 1,
+                marginTop: 2,
               }}
-            />
-            <Mono size={9} color={THEME.textMuted}>
-              LIVE · {TODAY_WORKOUT.name.toUpperCase()}
-            </Mono>
+            >
+              {ACTIVE.elapsed}
+            </div>
           </div>
-          <div
-            style={{
-              fontFamily: THEME.mono,
-              fontSize: 22,
-              fontWeight: 600,
-              color: THEME.text,
-              letterSpacing: 1,
-              marginTop: 2,
-            }}
-          >
-            {ACTIVE.elapsed}
-          </div>
+          <IconBtn size={40} bg="rgba(255,255,255,0.6)">
+            {Icon.vol('#111', 16)}
+          </IconBtn>
         </div>
-        <button
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            background: THEME.cardElev,
-            border: `1px solid ${THEME.border}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: THEME.textMuted,
-            cursor: 'pointer',
-          }}
-        >
-          {Icon.vol('currentColor', 16)}
-        </button>
       </div>
 
-      {/* Exercise pill tabs */}
-      <div
-        style={{ padding: '0 20px', marginBottom: 16, overflow: 'auto', scrollbarWidth: 'none' }}
-      >
+      <div style={{ padding: '16px 18px 12px', overflow: 'auto', scrollbarWidth: 'none' }}>
         <div style={{ display: 'flex', gap: 8, paddingBottom: 4 }}>
           {ACTIVE.list.map((e, i) => {
             const active = i === exIdx;
@@ -129,17 +89,15 @@ export function ActiveWorkout({ onExit }) {
                 key={i}
                 onClick={() => setExIdx(i)}
                 style={{
-                  minWidth: 108,
+                  minWidth: 112,
                   flexShrink: 0,
-                  background: active ? 'transparent' : THEME.card,
-                  border: active
-                    ? `1.5px solid ${THEME.accent}`
-                    : `1px solid ${THEME.border}`,
-                  borderRadius: 14,
-                  padding: '10px 12px',
+                  background: active ? '#111' : THEME.card,
+                  border: 'none',
+                  borderRadius: 18,
+                  padding: '12px 14px',
                   textAlign: 'left',
                   cursor: 'pointer',
-                  color: THEME.text,
+                  color: active ? '#fff' : THEME.text,
                 }}
               >
                 <Mono size={9} color={active ? THEME.accent : THEME.textMuted}>
@@ -149,8 +107,8 @@ export function ActiveWorkout({ onExit }) {
                   style={{
                     fontFamily: THEME.display,
                     fontSize: 13,
-                    fontWeight: 600,
-                    color: THEME.text,
+                    fontWeight: 700,
+                    color: active ? '#fff' : THEME.text,
                     marginTop: 2,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -161,7 +119,7 @@ export function ActiveWorkout({ onExit }) {
                 </div>
                 <Mono
                   size={9}
-                  color={active ? THEME.accent : THEME.textMuted}
+                  color={active ? 'rgba(255,255,255,0.55)' : THEME.textMuted}
                   style={{ marginTop: 2, display: 'block' }}
                 >
                   {done}/{tot}
@@ -172,73 +130,23 @@ export function ActiveWorkout({ onExit }) {
         </div>
       </div>
 
-      {/* Current exercise */}
-      <div style={{ padding: '0 20px', marginBottom: 12 }}>
+      <div style={{ padding: '0 18px', marginBottom: 10 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Mono size={10} color={THEME.textMuted}>
-            EXERCISE {String(exIdx + 1).padStart(2, '0')}
-          </Mono>
+          <Mono size={10} color={THEME.textMuted}>EXERCISE {String(exIdx + 1).padStart(2, '0')}</Mono>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: THEME.cardElev,
-                border: `1px solid ${THEME.border}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: THEME.textMuted,
-                cursor: 'pointer',
-              }}
-            >
-              {Icon.swap('currentColor', 14)}
-            </button>
-            <button
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: THEME.cardElev,
-                border: `1px solid ${THEME.border}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: THEME.textMuted,
-                cursor: 'pointer',
-              }}
-            >
-              {Icon.trend('currentColor', 14)}
-            </button>
+            <IconBtn size={32} bg={THEME.card}>{Icon.swap(THEME.text, 14)}</IconBtn>
+            <IconBtn size={32} bg={THEME.card}>{Icon.trend(THEME.text, 14)}</IconBtn>
           </div>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            marginTop: 4,
-            marginBottom: 2,
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              fontFamily: THEME.display,
-              fontSize: 28,
-              fontWeight: 700,
-              color: THEME.text,
-              letterSpacing: -0.8,
-            }}
-          >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 4, marginBottom: 2 }}>
+          <h2 style={{ margin: 0, fontFamily: THEME.display, fontSize: 30, fontWeight: 800, color: THEME.text, letterSpacing: -1 }}>
             {ex.name}
           </h2>
           <button
             title="Watch tutorial"
             style={{
-              width: 30,
-              height: 30,
+              width: 32,
+              height: 32,
               borderRadius: '50%',
               background: THEME.accent,
               border: 'none',
@@ -249,42 +157,30 @@ export function ActiveWorkout({ onExit }) {
               flexShrink: 0,
             }}
           >
-            {Icon.play('#000', 13)}
+            {Icon.play('#111', 13)}
           </button>
         </div>
         <div style={{ color: THEME.textMuted, fontSize: 12 }}>{ex.type}</div>
 
-        {/* Last time reference */}
         <div
           style={{
-            marginTop: 14,
-            padding: '10px 14px',
-            borderRadius: 10,
-            background: THEME.cardElev,
-            border: `1px solid ${THEME.border}`,
+            marginTop: 12,
+            padding: '12px 14px',
+            borderRadius: 14,
+            background: THEME.card,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          <Mono size={10} color={THEME.textMuted}>
-            LAST · {ex.last.date}
-          </Mono>
-          <span
-            style={{
-              fontFamily: THEME.mono,
-              fontSize: 12,
-              color: THEME.text,
-              fontWeight: 500,
-            }}
-          >
+          <Mono size={10} color={THEME.textMuted}>LAST · {ex.last.date}</Mono>
+          <span style={{ fontFamily: THEME.mono, fontSize: 12, color: THEME.text, fontWeight: 600 }}>
             {ex.last.vals}
           </span>
         </div>
       </div>
 
-      {/* Set table */}
-      <div style={{ padding: '6px 20px 12px' }}>
+      <div style={{ padding: '6px 18px 12px' }}>
         <div
           style={{
             display: 'grid',
@@ -294,18 +190,10 @@ export function ActiveWorkout({ onExit }) {
             alignItems: 'center',
           }}
         >
-          <Mono size={9} color={THEME.textMuted}>
-            SET
-          </Mono>
-          <Mono size={9} color={THEME.textMuted}>
-            WEIGHT
-          </Mono>
-          <Mono size={9} color={THEME.textMuted}>
-            REPS
-          </Mono>
-          <Mono size={9} color={THEME.textMuted}>
-            RPE
-          </Mono>
+          <Mono size={9} color={THEME.textMuted}>SET</Mono>
+          <Mono size={9} color={THEME.textMuted}>WEIGHT</Mono>
+          <Mono size={9} color={THEME.textMuted}>REPS</Mono>
+          <Mono size={9} color={THEME.textMuted}>RPE</Mono>
           <span />
         </div>
         {sets.map((s, i) => (
@@ -317,14 +205,13 @@ export function ActiveWorkout({ onExit }) {
             marginTop: 8,
             padding: '12px',
             background: 'transparent',
-            border: `1px dashed ${THEME.borderStrong}`,
-            borderRadius: 12,
+            border: `1.5px dashed ${THEME.borderStrong}`,
+            borderRadius: 14,
             color: THEME.textMuted,
-            fontFamily: THEME.mono,
-            fontSize: 11,
-            letterSpacing: 1.2,
-            textTransform: 'uppercase',
-            fontWeight: 600,
+            fontFamily: THEME.display,
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 0.2,
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -336,83 +223,40 @@ export function ActiveWorkout({ onExit }) {
         </button>
       </div>
 
-      {/* Session progress */}
-      <div style={{ padding: '0 20px 12px' }}>
-        <div
-          style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}
-        >
-          <Mono size={9} color={THEME.textMuted}>
-            SESSION PROGRESS
-          </Mono>
-          <Mono size={9} color={THEME.text}>
-            {completedCount} / {sets.length}
-          </Mono>
+      <div style={{ padding: '0 18px 12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+          <Mono size={9} color={THEME.textMuted}>SESSION PROGRESS</Mono>
+          <Mono size={9} color={THEME.text}>{completedCount} / {sets.length}</Mono>
         </div>
-        <div
-          style={{
-            height: 4,
-            background: THEME.cardElev,
-            borderRadius: 2,
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              width: pct + '%',
-              height: '100%',
-              background: THEME.accent,
-              transition: 'width .3s',
-            }}
-          />
+        <div style={{ height: 5, background: 'rgba(17,17,17,0.08)', borderRadius: 3, overflow: 'hidden' }}>
+          <div style={{ width: pct + '%', height: '100%', background: THEME.accentDark, transition: 'width .3s' }} />
         </div>
       </div>
 
-      {/* Rest timer overlay */}
       {restSec > 0 && (
         <div
           style={{
-            position: 'fixed',
-            bottom: 'max(16px, env(safe-area-inset-bottom))',
-            left: 16,
-            right: 16,
+            position: 'absolute',
+            bottom: 16,
+            left: 14,
+            right: 14,
             zIndex: 30,
-            background: THEME.card,
-            border: `1px solid ${THEME.accent}`,
-            borderRadius: 18,
+            background: '#111',
+            borderRadius: 22,
             padding: '14px 16px',
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            boxShadow: '0 10px 30px rgba(216,255,61,0.12)',
-            maxWidth: 420,
-            margin: '0 auto',
+            color: '#fff',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
           }}
         >
           <div style={{ flex: 1 }}>
-            <Mono size={9} color={THEME.accent}>
-              REST TIMER
-            </Mono>
-            <div
-              style={{
-                fontFamily: THEME.mono,
-                fontSize: 24,
-                fontWeight: 600,
-                color: THEME.text,
-                letterSpacing: 1,
-                marginTop: 2,
-              }}
-            >
-              {String(Math.floor(restSec / 60)).padStart(2, '0')}:
-              {String(restSec % 60).padStart(2, '0')}
+            <Mono size={9} color={THEME.accent}>REST TIMER</Mono>
+            <div style={{ fontFamily: THEME.mono, fontSize: 24, fontWeight: 700, color: '#fff', letterSpacing: 1, marginTop: 2 }}>
+              {String(Math.floor(restSec / 60)).padStart(2, '0')}:{String(restSec % 60).padStart(2, '0')}
             </div>
-            <div
-              style={{
-                marginTop: 6,
-                height: 3,
-                background: THEME.cardElev,
-                borderRadius: 2,
-              }}
-            >
+            <div style={{ marginTop: 6, height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>
               <div
                 style={{
                   width: (restSec / restTotal) * 100 + '%',
@@ -430,9 +274,9 @@ export function ActiveWorkout({ onExit }) {
               width: 40,
               height: 40,
               borderRadius: 20,
-              background: THEME.cardElev,
-              border: `1px solid ${THEME.border}`,
-              color: THEME.text,
+              background: 'rgba(255,255,255,0.1)',
+              border: 'none',
+              color: '#fff',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -444,18 +288,17 @@ export function ActiveWorkout({ onExit }) {
           <button
             onClick={() => setRestSec(0)}
             style={{
-              padding: '0 14px',
+              padding: '0 16px',
               height: 40,
               borderRadius: 20,
               background: THEME.accent,
               border: 'none',
-              color: '#000',
+              color: '#111',
               cursor: 'pointer',
-              fontFamily: THEME.mono,
-              fontSize: 10,
+              fontFamily: THEME.display,
+              fontSize: 12,
               fontWeight: 700,
-              letterSpacing: 1,
-              textTransform: 'uppercase',
+              letterSpacing: 0.3,
             }}
           >
             Skip
@@ -477,17 +320,15 @@ function SetRow({ set, idx, onToggle }) {
         padding: '10px 4px',
         alignItems: 'center',
         borderBottom: `1px solid ${THEME.border}`,
-        opacity: set.done ? 1 : 0.95,
       }}
     >
       <div
         style={{
-          width: 22,
-          height: 22,
-          borderRadius: 6,
-          background: isWarmup ? '#3a2e14' : THEME.cardElev,
-          border: `1px solid ${isWarmup ? '#5a4820' : THEME.border}`,
-          color: isWarmup ? '#ffb84d' : THEME.textMuted,
+          width: 24,
+          height: 24,
+          borderRadius: 7,
+          background: isWarmup ? '#F5E2B8' : '#F0EDE4',
+          color: isWarmup ? '#A47316' : THEME.textMuted,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -506,7 +347,7 @@ function SetRow({ set, idx, onToggle }) {
           fontSize: 11,
           color: set.done ? THEME.text : THEME.textMuted,
           textAlign: 'center',
-          fontWeight: 500,
+          fontWeight: 600,
         }}
       >
         {set.rpe ? (set.rpe.match(/^\d/) ? '@' + set.rpe : set.rpe) : '—'}
@@ -514,12 +355,12 @@ function SetRow({ set, idx, onToggle }) {
       <button
         onClick={onToggle}
         style={{
-          width: 34,
-          height: 34,
-          borderRadius: 8,
-          background: set.done ? '#2a351a' : THEME.cardElev,
-          border: `1px solid ${set.done ? '#4dff9f' : THEME.border}`,
-          color: set.done ? THEME.success : THEME.textDim,
+          width: 36,
+          height: 36,
+          borderRadius: 10,
+          background: set.done ? THEME.accent : THEME.card,
+          border: 'none',
+          color: set.done ? '#111' : THEME.textDim,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -536,11 +377,10 @@ function PillInput({ value, unit, done }) {
   return (
     <div
       style={{
-        height: 34,
-        borderRadius: 8,
-        background: THEME.cardElev,
-        border: `1px solid ${THEME.border}`,
-        padding: '0 10px',
+        height: 36,
+        borderRadius: 10,
+        background: done ? '#F0EDE4' : THEME.card,
+        padding: '0 12px',
         display: 'flex',
         alignItems: 'center',
         gap: 4,
@@ -550,17 +390,13 @@ function PillInput({ value, unit, done }) {
         style={{
           fontFamily: THEME.display,
           fontSize: 15,
-          fontWeight: 600,
+          fontWeight: 700,
           color: done ? THEME.text : THEME.textMuted,
         }}
       >
         {value}
       </span>
-      {unit && (
-        <Mono size={9} color={THEME.textDim}>
-          {unit}
-        </Mono>
-      )}
+      {unit && <Mono size={9} color={THEME.textDim}>{unit}</Mono>}
     </div>
   );
 }

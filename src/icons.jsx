@@ -1,4 +1,5 @@
-// Inline icon set — never external
+import React from 'react';
+
 export const Icon = {
   bolt: (c = 'currentColor', s = 16) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
@@ -7,13 +8,7 @@ export const Icon = {
   ),
   check: (c = 'currentColor', s = 16) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M5 12l5 5L20 7"
-        stroke={c}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M5 12l5 5L20 7" stroke={c} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   plus: (c = 'currentColor', s = 16) => (
@@ -28,24 +23,17 @@ export const Icon = {
   ),
   chevR: (c = 'currentColor', s = 14) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M9 6l6 6-6 6"
-        stroke={c}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M9 6l6 6-6 6" stroke={c} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   chevL: (c = 'currentColor', s = 14) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M15 6l-6 6 6 6"
-        stroke={c}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M15 6l-6 6 6 6" stroke={c} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  arrowL: (c = 'currentColor', s = 22) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
+      <path d="M20 12H4M4 12l6-6M4 12l6 6" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   close: (c = 'currentColor', s = 16) => (
@@ -56,12 +44,7 @@ export const Icon = {
   settings: (c = 'currentColor', s = 18) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="3" stroke={c} strokeWidth="1.8" />
-      <path
-        d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke={c} strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   ),
   search: (c = 'currentColor', s = 18) => (
@@ -89,32 +72,17 @@ export const Icon = {
   ),
   flame: (c = 'currentColor', s = 14) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 2s4 4 4 8a4 4 0 01-8 0c0-2 1-3 2-4-1 3 2 3 2 0 0-2-1-3 0-4z M6 14a6 6 0 0012 0c0 4-3 8-6 8s-6-4-6-8z"
-        fill={c}
-      />
+      <path d="M12 2s4 4 4 8a4 4 0 01-8 0c0-2 1-3 2-4-1 3 2 3 2 0 0-2-1-3 0-4z M6 14a6 6 0 0012 0c0 4-3 8-6 8s-6-4-6-8z" fill={c} />
     </svg>
   ),
   trend: (c = 'currentColor', s = 14) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 17l6-6 4 4 8-8M15 7h6v6"
-        stroke={c}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M3 17l6-6 4 4 8-8M15 7h6v6" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   swap: (c = 'currentColor', s = 16) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M7 4l-4 4 4 4M3 8h14M17 20l4-4-4-4M21 16H7"
-        stroke={c}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M7 4l-4 4 4 4M3 8h14M17 20l4-4-4-4M21 16H7" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   note: (c = 'currentColor', s = 16) => (
@@ -125,12 +93,7 @@ export const Icon = {
   ),
   home: (c = 'currentColor', s = 22) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 11l9-7 9 7v10h-6v-6h-6v6H3V11z"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
+      <path d="M3 11l9-7 9 7v10h-6v-6h-6v6H3V11z" stroke={c} strokeWidth="1.8" strokeLinejoin="round" />
     </svg>
   ),
   train: (c = 'currentColor', s = 22) => (
@@ -144,22 +107,12 @@ export const Icon = {
   ),
   chart: (c = 'currentColor', s = 22) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M4 20V10M10 20V4M16 20v-8M22 20H2"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M4 20V10M10 20V4M16 20v-8M22 20H2" stroke={c} strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   ),
   book: (c = 'currentColor', s = 22) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M4 4h7a3 3 0 013 3v13a2 2 0 00-2-2H4V4zM20 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8V4z"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
+      <path d="M4 4h7a3 3 0 013 3v13a2 2 0 00-2-2H4V4zM20 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8V4z" stroke={c} strokeWidth="1.8" strokeLinejoin="round" />
     </svg>
   ),
   user: (c = 'currentColor', s = 22) => (
@@ -176,31 +129,14 @@ export const Icon = {
   ),
   history: (c = 'currentColor', s = 18) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 12a9 9 0 109-9 9 9 0 00-6 2.3L3 8"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M3 3v5h5M12 7v5l3 2"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M3 12a9 9 0 109-9 9 9 0 00-6 2.3L3 8" stroke={c} strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M3 3v5h5M12 7v5l3 2" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   body: (c = 'currentColor', s = 18) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="5" r="2.5" stroke={c} strokeWidth="1.8" />
-      <path
-        d="M12 8v6M7 11l5-2 5 2M8 22l4-8 4 8"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M12 8v6M7 11l5-2 5 2M8 22l4-8 4 8" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   video: (c = 'currentColor', s = 18) => (
@@ -212,6 +148,11 @@ export const Icon = {
   filter: (c = 'currentColor', s = 16) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
       <path d="M3 5h18M6 12h12M10 19h4" stroke={c} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+  bookmark: (c = 'currentColor', s = 22) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
+      <path d="M6 3h12v18l-6-4-6 4V3z" stroke={c} strokeWidth="1.8" strokeLinejoin="round" />
     </svg>
   ),
 };

@@ -1,13 +1,14 @@
+import React from 'react';
 import { THEME } from '../theme.js';
 import { Icon } from '../icons.jsx';
 import { Mono } from '../components/Mono.jsx';
-import { Card } from '../components/Card.jsx';
 import { PageHeader } from '../components/PageHeader.jsx';
+import { IconBtn } from '../components/Card.jsx';
 import { CAL_MONTH, CAL_DAYS } from '../data.js';
 
 export function CalendarScreen() {
   const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const pad = 3; // April 2026 starts on Wednesday
+  const pad = 3;
   const cells = [...Array(pad).fill(null), ...CAL_DAYS];
   while (cells.length % 7 !== 0) cells.push(null);
   return (
@@ -15,100 +16,44 @@ export function CalendarScreen() {
       <PageHeader
         label={'PROGRAM · ' + CAL_MONTH}
         title="Calendar"
+        gradient
         right={
           <div style={{ display: 'flex', gap: 6 }}>
-            <button
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: THEME.cardElev,
-                border: `1px solid ${THEME.border}`,
-                color: THEME.textMuted,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {Icon.chevL('currentColor', 14)}
-            </button>
-            <button
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: THEME.cardElev,
-                border: `1px solid ${THEME.border}`,
-                color: THEME.textMuted,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {Icon.chevR('currentColor', 14)}
-            </button>
+            <IconBtn size={34} bg="rgba(255,255,255,0.6)">{Icon.chevL('#111', 14)}</IconBtn>
+            <IconBtn size={34} bg="rgba(255,255,255,0.6)">{Icon.chevR('#111', 14)}</IconBtn>
           </div>
         }
       />
-      <div style={{ padding: '0 20px 20px' }}>
-        <Card>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: 6,
-              marginBottom: 10,
-            }}
-          >
+      <div style={{ padding: '14px 18px 20px' }}>
+        <div style={{ background: THEME.card, borderRadius: 22, padding: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: 10 }}>
             {weekdays.map((d, i) => (
               <div key={i} style={{ textAlign: 'center' }}>
-                <Mono size={9} color={THEME.textDim}>
-                  {d}
-                </Mono>
+                <Mono size={9} color={THEME.textDim}>{d}</Mono>
               </div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6 }}>
             {cells.map((c, i) => {
               if (!c) return <div key={i} />;
-              let bg = THEME.cardElev,
-                fg = THEME.textDim,
-                border = THEME.border;
-              if (c.type === 'done') {
-                bg = '#2a351a';
-                fg = THEME.accent;
-                border = '#3d4d1f';
-              }
-              if (c.type === 'today') {
-                bg = THEME.accent;
-                fg = '#000';
-                border = THEME.accent;
-              }
-              if (c.type === 'rest') {
-                bg = THEME.cardElev;
-                fg = THEME.textDim;
-              }
-              if (c.type === 'planned') {
-                bg = THEME.card;
-                fg = THEME.textMuted;
-                border = THEME.borderStrong;
-              }
+              let bg = '#F0EDE4', fg = THEME.textDim;
+              if (c.type === 'done') { bg = THEME.accent; fg = '#111'; }
+              if (c.type === 'today') { bg = '#111'; fg = THEME.accent; }
+              if (c.type === 'rest') { bg = '#F0EDE4'; fg = THEME.textDim; }
+              if (c.type === 'planned') { bg = 'rgba(184,155,240,0.22)'; fg = THEME.accentDark; }
               return (
                 <div
                   key={i}
                   style={{
                     aspectRatio: '1',
-                    borderRadius: 8,
+                    borderRadius: 12,
                     background: bg,
-                    border: `1px solid ${border}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontFamily: THEME.display,
-                    fontSize: 12,
-                    fontWeight: 600,
+                    fontSize: 13,
+                    fontWeight: 700,
                     color: fg,
                     position: 'relative',
                   }}
@@ -118,11 +63,11 @@ export function CalendarScreen() {
                     <div
                       style={{
                         position: 'absolute',
-                        bottom: 4,
+                        bottom: 5,
                         width: 4,
                         height: 4,
                         borderRadius: '50%',
-                        background: THEME.textMuted,
+                        background: THEME.accentDark,
                       }}
                     />
                   )}
@@ -142,36 +87,22 @@ export function CalendarScreen() {
             }}
           >
             {[
-              { c: '#2a351a', bd: '#3d4d1f', l: 'DONE' },
-              { c: THEME.accent, bd: THEME.accent, l: 'TODAY' },
-              { c: THEME.card, bd: THEME.borderStrong, l: 'PLANNED' },
-              { c: THEME.cardElev, bd: THEME.border, l: 'REST' },
+              { c: THEME.accent, l: 'DONE' },
+              { c: '#111', l: 'TODAY' },
+              { c: 'rgba(184,155,240,0.22)', l: 'PLANNED' },
+              { c: '#F0EDE4', l: 'REST' },
             ].map((k, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <div
-                  style={{
-                    width: 12,
-                    height: 12,
-                    borderRadius: 3,
-                    background: k.c,
-                    border: `1px solid ${k.bd}`,
-                  }}
-                />
-                <Mono size={8} color={THEME.textMuted}>
-                  {k.l}
-                </Mono>
+                <div style={{ width: 12, height: 12, borderRadius: 4, background: k.c }} />
+                <Mono size={8} color={THEME.textMuted}>{k.l}</Mono>
               </div>
             ))}
           </div>
-        </Card>
+        </div>
 
-        <div style={{ marginTop: 14 }}>
-          <Mono size={10} color={THEME.textMuted}>
-            UPCOMING
-          </Mono>
-          <div
-            style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 8 }}
-          >
+        <div style={{ marginTop: 16 }}>
+          <Mono size={10} color={THEME.textMuted}>UPCOMING</Mono>
+          <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {[
               { d: 'MON · APR 20', n: 'Push Day B' },
               { d: 'TUE · APR 21', n: 'Pull Day B' },
@@ -182,26 +113,15 @@ export function CalendarScreen() {
                 style={{
                   padding: 14,
                   background: THEME.card,
-                  borderRadius: 12,
-                  border: `1px solid ${THEME.border}`,
+                  borderRadius: 16,
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}
               >
                 <div>
-                  <Mono size={9} color={THEME.textMuted}>
-                    {u.d}
-                  </Mono>
-                  <div
-                    style={{
-                      fontFamily: THEME.display,
-                      fontSize: 14,
-                      fontWeight: 600,
-                      color: THEME.text,
-                      marginTop: 2,
-                    }}
-                  >
+                  <Mono size={9} color={THEME.textMuted}>{u.d}</Mono>
+                  <div style={{ fontFamily: THEME.display, fontSize: 15, fontWeight: 700, color: THEME.text, marginTop: 2 }}>
                     {u.n}
                   </div>
                 </div>

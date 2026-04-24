@@ -12,15 +12,15 @@ import { ProfileScreen } from './screens/ProfileScreen.jsx';
 const TOP_TABS = ['today', 'train', 'stats', 'library', 'you'];
 
 export default function App() {
-  const [tab, setTab] = useState(() => localStorage.getItem('forge.tab') || 'today');
+  const [tab, setTab] = useState(() => localStorage.getItem('bloom.tab') || 'today');
   const [active, setActive] = useState(false);
-  const [variant, setVariant] = useState(() => localStorage.getItem('forge.variant') || 'v1');
+  const [variant, setVariant] = useState(() => localStorage.getItem('bloom.variant') || 'v2');
 
   useEffect(() => {
-    localStorage.setItem('forge.tab', tab);
+    localStorage.setItem('bloom.tab', tab);
   }, [tab]);
   useEffect(() => {
-    localStorage.setItem('forge.variant', variant);
+    localStorage.setItem('bloom.variant', variant);
   }, [variant]);
 
   const navigate = (t) => {
